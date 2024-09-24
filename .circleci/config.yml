@@ -5,7 +5,7 @@ jobs:
     docker:
       - image: cimg/base:stable
     environment:
-      IMAGE_TAG: docker/scout-demo-service:latest
+      IMAGE_TAG: alpine/used-for-docker-scout-score-check-only:${CIRCLE_BUILD_NUM}
     steps:
       # Checkout the repository files
       - checkout
@@ -25,7 +25,7 @@ jobs:
       # Build the Docker image
       - run:
           name: Build Docker image
-          command: docker build -t $IMAGE_TAG .
+          command: bash build.sh
       
       # Run Docker Scout          
       - run:

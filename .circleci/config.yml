@@ -12,7 +12,7 @@ jobs:
       
       # Set up a separate Docker environment to run `docker` commands in
       - setup_remote_docker:
-          version: 20.10.24
+          version: 27.3.1
     
       # Install Docker Scout and login to Docker Hub
       - run:

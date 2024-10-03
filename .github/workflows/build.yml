@@ -84,3 +84,4 @@ jobs:
           ./crane copy ${{ steps.meta.outputs.tags }} ${{ env.IMAGE_NAME }}:latest
           ./crane copy ${{ steps.meta.outputs.tags }} ${{ env.IMAGE_NAME }}:${VERSION}
           ./crane copy ${{ steps.meta.outputs.tags }} ${{ env.IMAGE_NAME }}:v${VERSION}
+          rm -rf /home/runner/.docker/config.json

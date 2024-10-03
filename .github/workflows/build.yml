@@ -70,7 +70,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - run:  bash ./test.sh ${{ env.IMAGE_NAME }}/${{ steps.meta.outputs.tags }}
+      - run:  pwd && bash ./test.sh ${{ env.IMAGE_NAME }}/${{ steps.meta.outputs.tags }}
         name: check the platform in multi-arch images
 
       - name: set tags

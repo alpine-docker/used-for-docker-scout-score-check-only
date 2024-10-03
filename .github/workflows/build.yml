@@ -24,9 +24,9 @@ jobs:
 
     services:
       docker:
-        image: docker:latest  # Use 'latest' to get the most recent Docker image
+        image: docker:latest  # Use the latest Docker image
         options: >-
-          --privileged # Optional: only needed if you require privileged access
+          --privileged  # Only include this if you need privileged access
           --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock
 
     steps:

@@ -64,9 +64,11 @@ jobs:
           cache-to: type=gha,mode=max
 
       - run:  bash ./test.sh ${{ env.IMAGE_NAME }}/${{ steps.meta.outputs.tags }}
+        name: check the platform in multi-arch images
 
-      - run: |
-        VERSION=($(docker run -i --rm ${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tags }} version|awk '{print $NF}'))
+      - name: set tags
+        run: |
+        export VERSION=($(docker run -i --rm ${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tags }} version|awk '{print $NF}'))
         docker run -ti - rm -v $(pwd)/.docker:/root/.docker alpine/crane auth login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }} index.docker.io
         docker run -ti - rm -v $(pwd)/.docker:/root/.docker alpine/crane copy ${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tags }} alpine/git:latest
         docker run -ti - rm -v $(pwd)/.docker:/root/.docker alpine/crane copy ${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tags }} alpine/git:${VERION}

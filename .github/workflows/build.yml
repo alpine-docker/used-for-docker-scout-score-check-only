@@ -62,3 +62,12 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - run:  bash ./test.sh ${{ env.IMAGE_NAME }}/${{ steps.meta.outputs.tags }}
+
+      - run: |
+        VERSION=($(docker run -i --rm ${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tags }} version|awk '{print $NF}'))
+        docker run -ti - rm -v $(pwd)/.docker:/root/.docker alpine/crane auth login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }} index.docker.io
+        docker run -ti - rm -v $(pwd)/.docker:/root/.docker alpine/crane copy ${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tags }} alpine/git:latest
+        docker run -ti - rm -v $(pwd)/.docker:/root/.docker alpine/crane copy ${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tags }} alpine/git:${VERION}
+        docker run -ti - rm -v $(pwd)/.docker:/root/.docker alpine/crane copy ${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tags }} alpine/git:v${VERION}

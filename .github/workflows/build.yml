@@ -22,12 +22,12 @@ jobs:
     permissions:
       pull-requests: write
 
-   services:
-     docker:
-       image: docker:latest  # Use 'latest' to get the most recent Docker image
-       options: >-
-         --privileged # Optional: only needed if you require privileged access
-         --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock
+    services:
+      docker:
+        image: docker:latest  # Use 'latest' to get the most recent Docker image
+        options: >-
+          --privileged # Optional: only needed if you require privileged access
+          --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock
 
     steps:
       - name: Setup Docker buildx

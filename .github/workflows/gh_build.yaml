@@ -35,13 +35,13 @@ jobs:
           platforms: linux/amd64,linux/arm64  # Optional: multi-architecture support
           push: true  # Ensure the image is pushed
           tags: |
-            ghcr.io/${{ github.repository_owner }}/demo:${{ github.sha }}
-            ghcr.io/${{ github.repository_owner }}/demo:latest
+            ghcr.io/${{ github.repository_owner }}/abc:${{ github.sha }}
+            ghcr.io/${{ github.repository_owner }}/abc:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       # Optionally, list the images after pushing
       - name: Verify pushed images
         run: |
-          docker images ghcr.io/${{ github.repository_owner }}/demo
+          docker images ghcr.io/${{ github.repository_owner }}/abc
 

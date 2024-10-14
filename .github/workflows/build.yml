@@ -17,6 +17,7 @@ env:
   GH_REGISTRY: ghcr.io
   # Image repository, without hostname and tag
   IMAGE_NAME: alpine/used-for-docker-scout-score-check-only
+  GH_IMAGE_NAME: ${{ env.GH_REGISTRY }}/${{ github.repository_owner }}/used-for-docker-scout-score-check-only
   SHA: ${{ github.event.pull_request.head.sha || github.event.after }}
 
 jobs:
@@ -64,7 +65,7 @@ jobs:
             provenance: ${{ github.event_name != 'pull_request' }}
             push: ${{ github.event_name != 'pull_request' }}
             load: ${{ github.event_name == 'pull_request' }}
-            tags: ${{ env.GH_REGISTRY }}/${{ steps.meta.outputs.tags }}
+            tags: ${{ env.GH_IMAGE_NAME}}/${{ env.SHA }}
             labels: ${{ steps.meta.outputs.labels }}
             cache-from: type=gha
             cache-to: type=gha,mode=max
@@ -87,7 +88,6 @@ jobs:
           export VERSION=($(docker run -i --rm ${{ steps.meta.outputs.tags }} version|awk '{print $NF}'))
           echo $VERSION
           ./crane auth login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }} index.docker.io
-          ./crane copy ${{ env.GH_REGISTRY }}/${{ steps.meta.outputs.tags }} ${{ env.IMAGE_NAME }}:latest
-          ./crane copy ${{ env.GH_REGISTRY }}/${{ steps.meta.outputs.tags }} ${{ env.IMAGE_NAME }}:${VERSION}
-          ./crane copy ${{ env.GH_REGISTRY }}/${{ steps.meta.outputs.tags }} ${{ env.IMAGE_NAME }}:v${VERSION}
+          ./crane copy ${{ env.GH_IMAGE_NAME }}/${{ env.SHA }} ${{ env.IMAGE_NAME }}:latest
+          ./crane copy ${{ env.GH_IMAGE_NAME }}/${{ env.SHA }} ${{ env.IMAGE_NAME }}:${VERSION}
           rm -rf /home/runner/.docker/config.json

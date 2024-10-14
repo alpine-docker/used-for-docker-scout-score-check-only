@@ -48,7 +48,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.GH_REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.GH_IMAGE_NAME }}
           labels: |
             org.opencontainers.image.revision=${{ env.SHA }}
           tags: |
